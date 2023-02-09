@@ -43,6 +43,7 @@ const port = 3000
 app.set('view engine', 'ejs')
 //untuk memanggil library expresslayout
 app.use(expressLayouts);
+//untuk memunculkan foto 
 app.use(express.static('img'));
 
 app.use((req, res, next) => {
