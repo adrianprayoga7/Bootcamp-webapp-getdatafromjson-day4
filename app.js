@@ -35,11 +35,13 @@
 //     });
 
 const express = require('express')
+const expressLayouts = require('express-ejs-layouts');
 const app = express()
 const port = 3000
 
 //untuk menginformasikan dengan menggunakan view engine ejs
 app.set('view engine', 'ejs')
+app.use(expressLayouts);
 
 //data array untuk di pass ke ejs
 const contacts = [
@@ -55,17 +57,22 @@ const contacts = [
 
 app.get('/', (req, res) => {
 //dirname untuk memberitahu bahwa lokasi file ada di directory
-    res.render('index')
+    res.render('index', {
+        title : 'Home Page'
+    })
 })
 
 //akses untuk ke halaman about
 app.get('/about', (req,res) => {
-    res.render('about')
+    res.render('about', {
+        title : 'About Page'
+    })
 })
 
 //akses untuk ke halaman contact
 app.get('/contact', (req,res) => {
     res.render('contact', {
+        title : 'Contact Page',
         febChar : contacts
     });
 })
