@@ -41,7 +41,14 @@ const port = 3000
 
 //untuk menginformasikan dengan menggunakan view engine ejs
 app.set('view engine', 'ejs')
+//untuk memanggil library expresslayout
 app.use(expressLayouts);
+app.use(express.static('img'));
+
+app.use((req, res, next) => {
+    console.log('Time:', Date.now())
+    next()
+  })
 
 //data array untuk di pass ke ejs
 const contacts = [
@@ -65,7 +72,7 @@ app.get('/', (req, res) => {
 //akses untuk ke halaman about
 app.get('/about', (req,res) => {
     res.render('about', {
-        title : 'About Page'
+        title : 'About Page'  
     })
 })
 
@@ -81,6 +88,7 @@ app.get('/contact', (req,res) => {
 // app.get('/product/:id', (req,res) => {
 //     res.send(req.params);
 // })
+
 
 //untuk akses tampilan 404 atau root
 app.use('/',(req,res) => {
