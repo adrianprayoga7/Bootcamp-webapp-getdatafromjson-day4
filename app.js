@@ -36,8 +36,10 @@
 
 const express = require('express')
 const expressLayouts = require('express-ejs-layouts');
+const morgan = require('morgan');
 const app = express()
 const port = 3000
+const contacts = require('./contact');
 
 //untuk menginformasikan dengan menggunakan view engine ejs
 app.set('view engine', 'ejs')
@@ -45,6 +47,7 @@ app.set('view engine', 'ejs')
 app.use(expressLayouts);
 //untuk memunculkan foto 
 app.use(express.static('img'));
+app.use(morgan('dev'));
 
 app.use((req, res, next) => {
     console.log('Time:', Date.now())
@@ -52,16 +55,19 @@ app.use((req, res, next) => {
   })
 
 //data array untuk di pass ke ejs
-const contacts = [
-    {
-        nama : 'adrian',
-        tlp : '082128409933'
-    },
-    {
-        nama : 'prayoga',
-        tlp : '082128442233'
-    }
-]
+// const contacts = [
+//     {
+//         nama : 'adrian',
+//         tlp : '082128409933'
+//     },
+//     {
+//         nama : 'prayoga',
+//         tlp : '082128442233'
+//     }
+// ]
+app.get('/', (req,res) => {
+    res.sendFile(path.normalize(__dirname + '/contacts.json'))
+})
 
 app.get('/', (req, res) => {
 //dirname untuk memberitahu bahwa lokasi file ada di directory
@@ -79,9 +85,10 @@ app.get('/about', (req,res) => {
 
 //akses untuk ke halaman contact
 app.get('/contact', (req,res) => {
+    const listContact = contacts.listContact();
     res.render('contact', {
         title : 'Contact Page',
-        febChar : contacts
+        febChar : listContact
     });
 })
 
